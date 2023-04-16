@@ -3,9 +3,10 @@ import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
 import { db, auth } from "../firebase.config";
 
 const Home = ({ isAuth }) => {
-  const [postList, setPostList] = useState([]);
+  const [postList, setPostList] = useState([]); //creating an array to store and update the postlist
   const postCollectionRef = collection(db, "posts");
 
+  // updating or populating the postlist array every time the component renders
   useEffect(() => {
     const getPosts = async () => {
       const data = await getDocs(postCollectionRef);
@@ -31,7 +32,7 @@ const Home = ({ isAuth }) => {
             Recent Blog Posts
           </h2>
           <h2 className="flex justify-center text-3xl font-semibold text-gray-600">
-            Welcome! {auth.currentUser.displayName}
+            {/* Welcome! {auth.currentUser.displayName} */}
           </h2>
         </>
       )}
@@ -42,7 +43,7 @@ const Home = ({ isAuth }) => {
             {postList.map((post) => {
               return (
                 <>
-                  <div class="p-12 flex flex-col md:w-1/2 items-start hover:bg-yellow-100 cursor-pointer rounded-xl ">
+                  <div class="p-12 flex flex-col md:w-1/2 items-start hover:bg-yellow-50 cursor-pointer rounded-xl ">
                     <span class="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">
                       CATEGORY
                     </span>
