@@ -1,88 +1,54 @@
-import React, { useState, useEffect } from "react";
-import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
-import { db, auth } from "../firebase.config";
+import React from "react";
+import Navbar from "../components/navbar";
+import { useNavigate } from "react-router-dom";
 
-const Home = ({ isAuth }) => {
-  const [postList, setPostList] = useState([]); //creating an array to store and update the postlist
-  const postCollectionRef = collection(db, "posts");
-
-  // updating or populating the postlist array every time the component renders
-  useEffect(() => {
-    const getPosts = async () => {
-      const data = await getDocs(postCollectionRef);
-      setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-
-    getPosts();
-  });
-
-  const deletePost = async (id) => {
-    const postDoc = doc(db, "posts", id);
-    await deleteDoc(postDoc);
-  };
+const Home = () => {
+  let navigate = useNavigate();
   return (
     <>
-      {!isAuth ? (
-        <h2 className="flex justify-center text-3xl font-semibold text-gray-600">
-          Login to see exciting Blog Posts
-        </h2>
-      ) : (
-        <>
-          <h2 className="flex justify-center text-3xl font-semibold text-gray-600">
-            Recent Blog Posts
-          </h2>
-          <h2 className="flex justify-center text-3xl font-semibold text-gray-600">
-            {/* Welcome! {auth.currentUser.displayName} */}
-          </h2>
-        </>
-      )}
-
-      <section class="text-gray-600 body-font overflow-hidden ">
-        <div class="container px-5 py-24 mx-auto">
-          <div class="flex flex-wrap -m-12">
-            {postList.map((post) => {
-              return (
-                <>
-                  <div class="p-12 flex flex-col md:w-1/2 items-start hover:bg-yellow-50 cursor-pointer rounded-xl ">
-                    <span class="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">
-                      CATEGORY
-                    </span>
-                    <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900 mt-4 mb-4">
-                      {post.title}
-                    </h2>
-                    <p class="leading-relaxed mb-8">{post.postText}</p>
-                    <div class="flex items-center flex-wrap pb-4 mb-4 border-b-2 border-gray-100 mt-auto w-full">
-                      {isAuth && post.author.id === auth.currentUser.uid && (
-                        <a
-                          onClick={() => {
-                            deletePost(post.id);
-                          }}
-                          class="text-red-500 inline-flex items-center"
-                        >
-                          Delete Post
-                        </a>
-                      )}
-                    </div>
-                    <a class="inline-flex items-center">
-                      <img
-                        alt="blog"
-                        src={post.author.imgUrl}
-                        class="w-12 h-12 rounded-full flex-shrink-0 object-cover object-center"
-                      />
-                      <span class="flex-grow flex flex-col pl-4">
-                        <span class="title-font font-medium text-gray-900">
-                          {post.author.name}
-                        </span>
-                        <span class="text-gray-400 text-xs tracking-widest mt-0.5">
-                          CONTENT WRITER
-                        </span>
-                      </span>
-                    </a>
-                  </div>
-                </>
-              );
-            })}
+      <Navbar />
+      <section>
+        <div className="max-w-screen-xl mx-auto px-4 py-28 gap-12 text-gray-600 md:px-8">
+          <div className="space-y-5 max-w-4xl mx-auto text-center">
+            <h1 className="text-sm text-indigo-600 font-medium">
+              Write blogs from anywhere
+            </h1>
+            <h2 className="text-4xl text-gray-800 font-extrabold mx-auto md:text-5xl">
+              Just login with your Google account{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4F46E5] to-[#E114E5]">
+                explore and create amazing blogs
+              </span>
+            </h2>
+            <p className="max-w-2xl mx-auto">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
+              inventore tempore, minima vero sit voluptatibus accusamus expedita
+              quod magnam fugiat, consectetur doloribus sint, eligendi nihil
+              laboriosam accusantium. Tempora, vitae qui.
+            </p>
+            <div className="items-center justify-center gap-x-3 space-y-3 sm:flex sm:space-y-0">
+              <a
+                href="javascript:void(0)"
+                className="block py-2 px-4 text-white font-medium bg-indigo-600 duration-150 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg shadow-lg hover:shadow-none"
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </a>
+              <a
+                href="javascript:void(0)"
+                className="block py-2 px-4 text-gray-700 hover:text-gray-500 font-medium duration-150 active:bg-gray-100 border rounded-lg"
+                onClick={() => navigate("/blogs")}
+              >
+                Explore
+              </a>
+            </div>
           </div>
+          {/* <div className="mt-14">
+            <img
+              src="https://res.cloudinary.com/floatui/image/upload/v1670150563/desktop_dte2ar.png"
+              className="w-full shadow-lg rounded-lg border"
+              alt=""
+            />
+          </div> */}
         </div>
       </section>
     </>
