@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  deleteDoc,
+  doc,
+  orderBy,
+  serverTimestamp,
+} from "firebase/firestore";
 import { db, auth } from "../firebase.config";
 import Navbar from "../components/navbar";
 
@@ -10,12 +17,12 @@ const Blogs = ({ isAuth }) => {
   // updating or populating the postlist array every time the component renders
   useEffect(() => {
     const getPosts = async () => {
-      const data = await getDocs(postCollectionRef);
+      const data = await getDocs(postCollectionRef, orderBy("createdAt"));
       setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
 
     getPosts();
-  });
+  }, [postList]);
 
   const deletePost = async (id) => {
     const postDoc = doc(db, "posts", id);

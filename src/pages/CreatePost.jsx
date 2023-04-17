@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { db, auth } from "../firebase.config";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
 
 const CreatePost = ({ isAuth }) => {
   const [title, setTitle] = useState("");
+  // const [category, setCategory] = useState("");
   const [postText, setPostText] = useState("");
 
   const postsCollectionRef = collection(db, "posts");
@@ -15,6 +16,7 @@ const CreatePost = ({ isAuth }) => {
     await addDoc(postsCollectionRef, {
       title,
       postText,
+      createdAt: serverTimestamp(),
       author: {
         name: auth.currentUser.displayName,
         id: auth.currentUser.uid,
@@ -22,7 +24,7 @@ const CreatePost = ({ isAuth }) => {
         // email: auth.currentUser.email
       },
     });
-    navigate("/");
+    navigate("/blogs");
   };
 
   useEffect(() => {
