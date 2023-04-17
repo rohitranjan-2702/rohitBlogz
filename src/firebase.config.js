@@ -9,7 +9,7 @@ const firebaseConfig = {
   projectId: "rohitblogz",
   storageBucket: "rohitblogz.appspot.com",
   messagingSenderId: "832689415551",
-  appId: process.env.REACT_APP_ID,
+  appId: process.env.REACT_APP_APPID,
   measurementId: "G-FV4JVJC0NL",
 };
 
