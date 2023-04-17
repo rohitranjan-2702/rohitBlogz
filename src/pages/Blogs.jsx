@@ -57,7 +57,7 @@ const Blogs = ({ isAuth }) => {
                       <span class="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">
                         CATEGORY
                       </span>
-                      <span class="py-1 px-5 text-lg">25, dec</span>
+                      <span class="py-1 px-5 text-lg">{post.createdAt}</span>
                     </div>
 
                     <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900 mt-4 mb-4">
